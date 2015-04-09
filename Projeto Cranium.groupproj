@@ -1,0 +1,48 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{A330D29C-18AC-41BB-8ABB-AF8827FB6C4C}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="Cranium.dproj">
+				<Dependencies>CraniumResources.dproj</Dependencies>
+			</Projects>
+			<Projects Include="CraniumResources.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target DependsOnTargets="CraniumResources" Name="Cranium">
+			<MSBuild Projects="Cranium.dproj"/>
+		</Target>
+		<Target DependsOnTargets="CraniumResources:Clean" Name="Cranium:Clean">
+			<MSBuild Targets="Clean" Projects="Cranium.dproj"/>
+		</Target>
+		<Target DependsOnTargets="CraniumResources:Make" Name="Cranium:Make">
+			<MSBuild Targets="Make" Projects="Cranium.dproj"/>
+		</Target>
+		<Target Name="CraniumResources">
+			<MSBuild Projects="CraniumResources.dproj"/>
+		</Target>
+		<Target Name="CraniumResources:Clean">
+			<MSBuild Targets="Clean" Projects="CraniumResources.dproj"/>
+		</Target>
+		<Target Name="CraniumResources:Make">
+			<MSBuild Targets="Make" Projects="CraniumResources.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="Cranium;CraniumResources"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="Cranium:Clean;CraniumResources:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="Cranium:Make;CraniumResources:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>
